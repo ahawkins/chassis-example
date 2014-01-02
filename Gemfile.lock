@@ -1,0 +1,79 @@
+GIT
+  remote: git://github.com/ahawkins/virtus-dirty.git
+  revision: 5a6b4f1a8e0e6634b47534256e093921c795510c
+  specs:
+    virtus-dirty (0.1.0)
+      virtus (>= 1.0.0)
+
+PATH
+  remote: ~/projects/chassis
+  specs:
+    chassis (0.0.1)
+      harness
+      harness-rack
+      manifold
+      prox
+      rack-contrib
+      sinatra
+      virtus (= 1.0.0)
+      virtus-dirty
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (4.0.2)
+      i18n (~> 0.6, >= 0.6.4)
+      minitest (~> 4.2)
+      multi_json (~> 1.3)
+      thread_safe (~> 0.1)
+      tzinfo (~> 0.3.37)
+    atomic (1.1.14)
+    axiom-types (0.0.5)
+      descendants_tracker (~> 0.0.1)
+      ice_nine (~> 0.9)
+    backports (3.4.0)
+    coercible (0.2.0)
+      backports (~> 3.0, >= 3.1.0)
+      descendants_tracker (~> 0.0.1)
+    descendants_tracker (0.0.3)
+    equalizer (0.0.9)
+    harness (1.0.2)
+      activesupport (>= 3)
+      statsd-ruby
+    harness-rack (0.1.0)
+      harness
+    i18n (0.6.9)
+    ice_nine (0.11.0)
+    manifold (1.0.2)
+    minitest (4.7.5)
+    multi_json (1.8.2)
+    prox (0.0.1)
+    puma (2.7.1)
+      rack (>= 1.1, < 2.0)
+    rack (1.5.2)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
+    rack-protection (1.5.1)
+      rack
+    sinatra (1.4.4)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (~> 1.3, >= 1.3.4)
+    statsd-ruby (1.2.1)
+    thread_safe (0.1.3)
+      atomic
+    tilt (1.4.1)
+    tzinfo (0.3.38)
+    virtus (1.0.0)
+      axiom-types (~> 0.0.5)
+      coercible (~> 0.2)
+      descendants_tracker (~> 0.0.1)
+      equalizer (~> 0.0.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  chassis!
+  puma
+  virtus-dirty!
