@@ -55,6 +55,7 @@ GEM
       rack (>= 0.9.1)
     rack-protection (1.5.1)
       rack
+    rake (10.1.1)
     sinatra (1.4.4)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -76,4 +77,5 @@ PLATFORMS
 DEPENDENCIES
   chassis!
   puma
+  rake
   virtus-dirty!
