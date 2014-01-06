@@ -10,6 +10,8 @@ class CreateUserTest < AcceptanceTestCase
     assert_equal '+19253736317', message.number
     assert message.text, "SMS must contain the auth code"
 
+    refute_empty AuthTokenRepo
+
     post '/users', user: {
       name: 'Adam',
       auth_token: message.text,
@@ -29,6 +31,8 @@ class CreateUserTest < AcceptanceTestCase
 
     assert_equal 'some-uuid', db.device.uuid
     assert_equal 'some-token', db.device.push_token
+
+    assert_empty AuthTokenRepo, "Auth token should be deleted after use"
   end
 
   def test_returns_the_user_as_json
