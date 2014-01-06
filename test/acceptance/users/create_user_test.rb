@@ -114,6 +114,19 @@ class CreateUserTest < MiniTest::Unit::TestCase
     assert_equal 422, last_response.status
   end
 
+  def test_returns_422_when_name_is_blank
+    post '/users', user: {
+      name: nil,
+      auth_token: 'foo',
+      device: {
+        uuid: 'some-uuid',
+        push_token: 'some-token'
+      }
+    }
+
+    assert_equal 422, last_response.status
+  end
+
   def test_raises_an_error_if_device_information_is_missing
     post '/user_token', user_token: { phone_number: "+19253736317" }
     assert_equal 202, last_response.status
