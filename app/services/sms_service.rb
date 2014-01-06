@@ -10,7 +10,7 @@ class SmsService
     class ErrorHandler < ::Faraday::Response::Middleware
       def on_complete(env)
         status = env.fetch :status
-        return if status == 200
+        return if status == 201
 
         json = JSON.parse(env.fetch(:body))
 

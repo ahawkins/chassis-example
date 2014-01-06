@@ -30,7 +30,7 @@ class SmsServiceTest < MiniTest::Unit::TestCase
   def test_sends_sms_using_twilio
     stub_request(:post, "https://#{account_sid}:#{auth_token}@api.twilio.com/2010-04-01/Accounts/#{account_sid}/SMS/Messages.json").
       with(:body => { "Body" => "hi", "From" => from_number , "To" => to_number }).
-      to_return(:status => 200, :body => "", :headers => {})
+      to_return(:status => 201, :body => "", :headers => {})
 
     sms.deliver to_number, 'hi'
   end
