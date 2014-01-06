@@ -42,7 +42,7 @@ class WebService < Sinatra::Base
     halt 400, { 'Content-Type' => 'application/json' }, JSON.dump(message: env['sinatra.error'].message)
   end
 
-  error Validation::ValidationFailedError do
+  error Form::ValidationError do
     halt 422, { 'Content-Type' => 'application/json' }, JSON.dump({
       message: 'validation failed',
       errors: env['sinatra.error'].as_json

@@ -11,7 +11,7 @@ require 'active_support/core_ext/string'
 
 require 'active_model_serializers'
 
-require_relative 'lib/validation'
+I18n.enforce_available_locales = false
 
 require_relative 'app/models/concerns/persistance'
 require_relative 'app/models/concerns/serialization'
