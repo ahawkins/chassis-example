@@ -1,5 +1,8 @@
 require 'uri'
 
+$stdout.sync = true
+$stderr.sync = true
+
 twilio_account_sid = ENV.fetch 'TWILIO_ACCOUNT_SID'
 twilio_auth_token = ENV.fetch 'TWILIO_AUTH_TOKEN'
 twilio_number = ENV.fetch 'TWILIO_NUMBER'
