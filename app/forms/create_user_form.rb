@@ -4,14 +4,14 @@ class CreateUserForm < Form
   attribute :device, Hash
 
   def validate
-    errors.add :name, "cannot be blank" if name.nil? || name.strip.empty?
-    errors.add :auth_token, "cannot be blank" if auth_token.nil? || auth_token.strip.empty?
+    errors.add :name, "cannot be blank" if name.blank?
+    errors.add :auth_token, "cannot be blank" if auth_token.blank?
 
     if !device.is_a?(Hash)
       errors.add :device, "must be a hash"
     else
       uuid = device.fetch 'uuid', nil
-      errors.add 'device.uuid', "cannot be blank" if uuid.nil? || uuid.strip.empty?
+      errors.add 'device.uuid', "cannot be blank" if uuid.blank?
     end
   end
 end

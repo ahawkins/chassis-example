@@ -2,7 +2,7 @@ class UserTokenForm < Form
   attribute :phone_number, String
 
   def validate
-    if phone_number.nil? || phone_number.empty?
+    if phone_number.blank?
       errors.add :phone_number, "cannot be blank"
       return
     end

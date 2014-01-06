@@ -5,6 +5,7 @@ require 'securerandom'
 
 require 'active_support/concern'
 require 'active_support/core_ext/class'
+require 'active_support/core_ext/string'
 
 require_relative 'lib/validation'
 
