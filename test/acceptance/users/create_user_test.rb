@@ -1,42 +1,6 @@
 require_relative '../../test_helper'
 
-class CreateUserTest < MiniTest::Unit::TestCase
-  include Rack::Test::Methods
-
-  class FakeSms
-    Sms = Struct.new :number, :text
-
-    attr_reader :messages
-
-    def initialize
-      @messages = [ ]
-    end
-
-    def deliver(number, msg)
-      messages << Sms.new(number, msg)
-    end
-  end
-
-  def app
-    WebService
-  end
-
-  def sms
-    SmsService.backend
-  end
-
-  def setup
-    SmsService.backend = FakeSms.new
-    Chassis::Repo.backend = InMemoryAdapter.new
-    Chassis::Repo.backend.initialize_storage!
-    Chassis::Repo.instance.clear
-    Sidekiq::Testing.inline!
-  end
-
-  def teardown
-    Sidekiq::Testing.fake!
-  end
-
+class CreateUserTest < AcceptanceTestCase
   def test_uses_the_auth_code_to_create_a_user
     post '/user_token', user_token: { phone_number: "+19253736317" }
     assert_equal 202, last_response.status
