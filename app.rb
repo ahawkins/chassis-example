@@ -26,6 +26,7 @@ require_relative 'app/repos/auth_token_repo'
 require_relative 'app/repos/user_repo'
 
 require_relative 'app/repos/adapters/in_memory_adapter'
+require_relative 'app/repos/adapters/redis_adapter'
 
 require_relative 'app/form'
 require_relative 'app/forms/user_token_form'

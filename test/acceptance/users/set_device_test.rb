@@ -12,8 +12,9 @@ class SetDeviceTest < AcceptanceTestCase
     put '/device', { device: { uuid: 'foo', push_token: 'bar' }}, 'HTTP_X_TOKEN' => user.token
     assert_equal 200, last_response.status
 
-    assert_equal 'foo', user.device.uuid
-    assert_equal 'bar', user.device.push_token
+    db = UserRepo.find user.id
+    assert_equal 'foo', db.device.uuid
+    assert_equal 'bar', db.device.push_token
   end
 
   def test_returns_the_device_as_json
