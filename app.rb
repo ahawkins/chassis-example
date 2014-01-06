@@ -2,6 +2,7 @@ require 'bundler/setup'
 require 'chassis'
 require 'sidekiq'
 require 'securerandom'
+require 'faraday'
 
 require 'sinatra/json'
 

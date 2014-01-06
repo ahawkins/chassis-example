@@ -10,6 +10,9 @@ require 'fabrication'
 require 'sidekiq/testing'
 Sidekiq::Testing.fake!
 
+require 'webmock/minitest'
+WebMock.disable_net_connect!
+
 class BacktraceFilter
   def filter(bt)
     return ["No backtrace"] unless bt

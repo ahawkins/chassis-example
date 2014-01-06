@@ -33,6 +33,7 @@ GEM
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
+    addressable (2.3.5)
     atomic (1.1.14)
     axiom-types (0.0.5)
       descendants_tracker (~> 0.0.1)
@@ -45,9 +46,13 @@ GEM
       backports (~> 3.0, >= 3.1.0)
       descendants_tracker (~> 0.0.1)
     connection_pool (1.2.0)
+    crack (0.4.1)
+      safe_yaml (~> 0.9.0)
     descendants_tracker (0.0.3)
     equalizer (0.0.9)
     fabrication (2.9.4)
+    faraday (0.8.8)
+      multipart-post (~> 1.2.0)
     harness (1.0.2)
       activesupport (>= 3)
       statsd-ruby
@@ -59,6 +64,7 @@ GEM
     manifold (1.0.2)
     minitest (4.7.5)
     multi_json (1.8.2)
+    multipart-post (1.2.0)
     prox (0.0.1)
     puma (2.7.1)
       rack (>= 1.1, < 2.0)
@@ -73,6 +79,7 @@ GEM
     redis (3.0.6)
     redis-namespace (1.4.1)
       redis (~> 3.0.4)
+    safe_yaml (0.9.7)
     sidekiq (2.17.2)
       celluloid (>= 0.15.2)
       connection_pool (>= 1.0.0)
@@ -101,6 +108,9 @@ GEM
       coercible (~> 0.2)
       descendants_tracker (~> 0.0.1)
       equalizer (~> 0.0.7)
+    webmock (1.16.1)
+      addressable (>= 2.2.7)
+      crack (>= 0.3.2)
 
 PLATFORMS
   ruby
@@ -109,9 +119,11 @@ DEPENDENCIES
   active_model_serializers
   chassis!
   fabrication
+  faraday
   puma
   rack-test
   rake
   sidekiq
   sinatra-contrib
   virtus-dirty!
+  webmock
