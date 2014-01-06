@@ -60,9 +60,11 @@ class AcceptanceTestCase < MiniTest::Unit::TestCase
 
   def setup
     SmsService.backend = FakeSms.new
+
     Chassis::Repo.backend = RedisAdapter.new
-    Chassis::Repo.backend.initialize_storage!
+    Chassis::Repo.instance.initialize_storage!
     Chassis::Repo.instance.clear
+
     Sidekiq::Testing.inline!
   end
 

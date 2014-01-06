@@ -16,4 +16,5 @@ connection_pool = ConnectionPool::Wrapper.new(size: ENV.fetch('PUMA_MAX_THREADS'
   Redis::Namespace.new 'repo', Redis.new(url: ENV.fetch('REDISCLOUD_URL'))
 end
 Chassis::Repo.backend = RedisAdapter.new connection_pool
-Chassis::Repo.initialize_storage!
+
+Chassis::Repo.instance.initialize_storage!
