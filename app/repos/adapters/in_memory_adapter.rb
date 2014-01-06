@@ -4,4 +4,10 @@ class InMemoryAdapter < Chassis::Repo::InMemoryAdapter
       auth_token.code == q.code
     end
   end
+
+  def query_user_with_token(klass, q)
+    all(klass).find do |user|
+      user.token == q.token
+    end
+  end
 end

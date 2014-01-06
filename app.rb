@@ -29,9 +29,11 @@ require_relative 'app/repos/adapters/in_memory_adapter'
 require_relative 'app/form'
 require_relative 'app/forms/user_token_form'
 require_relative 'app/forms/create_user_form'
+require_relative 'app/forms/device_form'
 
 require_relative 'app/use_cases/send_user_token'
 require_relative 'app/use_cases/create_user'
+require_relative 'app/use_cases/update_device'
 
 require_relative 'app/jobs/deliver_auth_token'
 

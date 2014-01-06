@@ -13,4 +13,5 @@ gem 'active_model_serializers'
 
 group :test do
   gem 'rack-test'
+  gem 'fabrication'
 end

@@ -30,6 +30,14 @@ class WebService < Sinatra::Base
       value
     end
 
+    def current_user
+      token = env.fetch 'HTTP_X_TOKEN' do
+        halt 412, { 'Content-Type' => 'application/json' }, JSON.dump({message: 'X-Token header messing'})
+      end
+
+      UserRepo.find_by_token! token
+    end
+
     def serialize(object, options = {})
       klass = options[:serializer] || object.active_model_serializer
       options[:scope] ||= nil
@@ -40,6 +48,10 @@ class WebService < Sinatra::Base
 
   error ParameterMissingError do
     halt 400, { 'Content-Type' => 'application/json' }, JSON.dump(message: env['sinatra.error'].message)
+  end
+
+  error UserRepo::UnknownTokenError do
+    halt 403, { 'Content-Type' => 'application/json' }, JSON.dump(message: env['sinatra.error'].message)
   end
 
   error Form::ValidationError do
@@ -69,5 +81,15 @@ class WebService < Sinatra::Base
     rescue CreateUser::UnknownAuthCodeError => ex
       halt 403, { 'Content-Type' => 'application/json' }, JSON.dump(message: ex.message)
     end
+  end
+
+  put '/device' do
+    form = DeviceForm.new extract!(:device)
+    use_case = UpdateDevice.new form, current_user
+
+    device = use_case.run!
+
+    status 200
+    json serialize(device)
   end
 end

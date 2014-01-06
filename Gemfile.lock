@@ -46,6 +46,7 @@ GEM
     connection_pool (1.2.0)
     descendants_tracker (0.0.3)
     equalizer (0.0.9)
+    fabrication (2.9.4)
     harness (1.0.2)
       activesupport (>= 3)
       statsd-ruby
@@ -106,6 +107,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   chassis!
+  fabrication
   puma
   rack-test
   rake

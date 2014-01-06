@@ -4,8 +4,8 @@ root = File.expand_path '../../', __FILE__
 require "#{root}/app"
 
 require 'minitest/autorun'
-
 require 'rack/test'
+require 'fabrication'
 
 require 'sidekiq/testing'
 Sidekiq::Testing.fake!
@@ -49,6 +49,10 @@ class AcceptanceTestCase < MiniTest::Unit::TestCase
 
   def sms
     SmsService.backend
+  end
+
+  def create(*args)
+    Fabricate(*args)
   end
 
   def setup
