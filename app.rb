@@ -3,6 +3,7 @@ require 'chassis'
 require 'sidekiq'
 require 'securerandom'
 require 'faraday'
+require 'redis-namespace'
 
 require 'sinatra/json'
 
