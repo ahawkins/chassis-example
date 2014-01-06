@@ -65,4 +65,20 @@ class CreateUserTest < MiniTest::Unit::TestCase
     assert_equal 'some-uuid', db.device.uuid
     assert_equal 'some-token', db.device.push_token
   end
+
+  def test_returns_400_if_user_token_is_missing
+    post '/user_token', user_token: nil
+    assert_equal 400, last_response.status
+
+    post '/user_token'
+    assert_equal 400, last_response.status
+  end
+
+  def test_returns_422_if_phone_number_is_invalid
+    post '/user_token', user_token: { phone_number: nil }
+    assert_equal 422, last_response.status
+
+    post '/user_token', user_token: { phone_number: '' }
+    assert_equal 422, last_response.status
+  end
 end

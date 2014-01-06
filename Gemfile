@@ -6,7 +6,6 @@ gem 'chassis', path: '~/projects/chassis'
 gem 'virtus-dirty', github: 'ahawkins/virtus-dirty'
 
 gem 'puma'
-
 gem 'sidekiq'
 
 group :test do

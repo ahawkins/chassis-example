@@ -9,11 +9,25 @@ class WebService < Sinatra::Base
 
   use Rack::PostBodyContentTypeParser
 
+  class ParameterMissingError < StandardError
+    def initialize(key)
+      @key = key
+    end
+
+    def to_s
+      %Q{Request did not provide "#{@key}"}
+    end
+  end
+
   helpers do
     def extract!(key)
-      params.fetch(key.to_s) do
-        raise ParamterMissingError, key
+      value = params.fetch(key.to_s) do
+        raise ParameterMissingError, key
       end
+
+      raise ParameterMissingError, key unless value.is_a?(Hash)
+
+      value
     end
 
     def serialize(object, options = {})
@@ -21,6 +35,17 @@ class WebService < Sinatra::Base
       serializer = klass.new(object)#options.merge(scope: current_user))
       serializer.as_json
     end
+  end
+
+  error ParameterMissingError do
+    halt 400, { 'Content-Type' => 'application/json' }, JSON.dump(message: env['sinatra.error'].message)
+  end
+
+  error Validation::ValidationFailedError do
+    halt 422, { 'Content-Type' => 'application/json' }, JSON.dump({
+      message: 'validation failed',
+      errors: env['sinatra.error'].as_json
+    })
   end
 
   post '/user_token' do

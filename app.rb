@@ -18,6 +18,7 @@ require_relative 'app/repos/user_repo'
 
 require_relative 'app/repos/adapters/in_memory_adapter'
 
+require_relative 'app/forms/concerns/validation'
 require_relative 'app/forms/user_token_form'
 require_relative 'app/forms/create_user_form'
 

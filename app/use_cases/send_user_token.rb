@@ -6,6 +6,8 @@ class SendUserToken
   end
 
   def run!
+    form.validate!
+
     auth_token = AuthToken.create({
       phone_number: form.phone_number,
       code: SecureRandom.hex(6)
