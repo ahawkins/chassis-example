@@ -67,6 +67,38 @@ class CreateUserTest < MiniTest::Unit::TestCase
     assert_equal 'some-token', db.device.push_token
   end
 
+  def test_returns_the_user_as_json
+    post '/user_token', user_token: { phone_number: "+19253736317" }
+    assert_equal 202, last_response.status
+
+    refute_empty sms.messages
+    message = sms.messages.first
+    assert_equal '+19253736317', message.number
+    assert message.text, "SMS must contain the auth code"
+
+    post '/users', user: {
+      name: 'Adam',
+      auth_token: message.text,
+      device: {
+        uuid: 'some-uuid',
+        push_token: 'some-token'
+      }
+    }
+
+    assert_equal 201, last_response.status
+    assert_includes last_response.content_type, 'application/json'
+
+    json = JSON.load(last_response.body).fetch('user')
+
+    assert json.fetch('name')
+    assert json.fetch('token')
+
+    json = json.fetch('device')
+
+    assert json.fetch('uuid')
+    assert json.fetch('push_token')
+  end
+
   def test_returns_400_if_user_token_is_missing
     post '/user_token', user_token: nil
     assert_equal 400, last_response.status

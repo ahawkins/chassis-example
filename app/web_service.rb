@@ -32,7 +32,8 @@ class WebService < Sinatra::Base
 
     def serialize(object, options = {})
       klass = options[:serializer] || object.active_model_serializer
-      serializer = klass.new(object)#options.merge(scope: current_user))
+      options[:scope] ||= nil
+      serializer = klass.new(object, options)
       serializer.as_json
     end
   end
@@ -64,6 +65,7 @@ class WebService < Sinatra::Base
       user = use_case.run!
 
       status 201
+      json serialize(user, scope: user)
     rescue CreateUser::UnknownAuthCodeError => ex
       halt 403, { 'Content-Type' => 'application/json' }, JSON.dump(message: ex.message)
     end
