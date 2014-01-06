@@ -92,4 +92,8 @@ class WebService < Sinatra::Base
     status 200
     json serialize(device)
   end
+
+  get '/self' do
+    json serialize(current_user)
+  end
 end
