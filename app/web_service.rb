@@ -57,11 +57,15 @@ class WebService < Sinatra::Base
   end
 
   post '/users' do
-    form = CreateUserForm.new extract!(:user)
-    use_case = CreateUser.new form
+    begin
+      form = CreateUserForm.new extract!(:user)
+      use_case = CreateUser.new form
 
-    user = use_case.run!
+      user = use_case.run!
 
-    status 201
+      status 201
+    rescue CreateUser::UnknownAuthCodeError => ex
+      halt 403, { 'Content-Type' => 'application/json' }, JSON.dump(message: ex.message)
+    end
   end
 end

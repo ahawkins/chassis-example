@@ -29,6 +29,7 @@ class CreateUserTest < MiniTest::Unit::TestCase
     SmsService.backend = FakeSms.new
     Chassis::Repo.backend = InMemoryAdapter.new
     Chassis::Repo.backend.initialize_storage!
+    Chassis::Repo.instance.clear
     Sidekiq::Testing.inline!
   end
 
@@ -83,5 +84,20 @@ class CreateUserTest < MiniTest::Unit::TestCase
 
     post '/user_token', user_token: { phone_number: '3282314' }
     assert_equal 422, last_response.status
+  end
+
+  def test_returns_a_403_if_auth_code_is_bad
+    assert_empty AuthTokenRepo
+
+    post '/users', user: {
+      name: 'Adam',
+      auth_token: 'foo',
+      device: {
+        uuid: 'some-uuid',
+        push_token: 'some-token'
+      }
+    }
+
+    assert_equal 403, last_response.status
   end
 end

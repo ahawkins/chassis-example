@@ -1,4 +1,6 @@
 class CreateUser
+  UnknownAuthCodeError = Class.new(StandardError)
+
   attr_reader :form
 
   def initialize(form)
@@ -17,5 +19,7 @@ class CreateUser
         device.push_token = form.device.fetch('push_token')
       end
     end
+  rescue AuthTokenRepo::UnknownAuthCodeError => ex
+    raise UnknownAuthCodeError, ex.message
   end
 end
