@@ -46,8 +46,8 @@ class RedisAdapter < InMemoryAdapter
     end
   end
 
-  def initialize
-    @redis = Redis.new
+  def initialize(redis = Redis.new)
+    @redis = redis
   end
 
   def clear
