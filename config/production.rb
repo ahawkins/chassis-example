@@ -12,7 +12,7 @@ Sidekiq.configure_client do |config|
   config.redis = { url: ENV.fetch('REDISCLOUD_URL'), namespace: 'sidekiq' }
 end
 
-connection_pool = ConnectionPool::Wrapper.new(size: ENV.fetch('PUMA_MAX_THREADS')) do
+connection_pool = ConnectionPool::Wrapper.new(size: ENV.fetch('PUMA_MAX_THREADS').to_i) do
   Redis::Namepsace.new 'repo', Redis.new(url: ENV.fetch('REDISCLOUD_URL'))
 end
 Repo.backend = RedisAdapter.new connection_pool
