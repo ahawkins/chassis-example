@@ -19,6 +19,10 @@ class WebService < Sinatra::Base
     end
   end
 
+  configure :production, :staging do
+    enable :logging
+  end
+
   helpers do
     def extract!(key)
       value = params.fetch(key.to_s) do
