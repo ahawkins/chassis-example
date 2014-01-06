@@ -1,4 +1,4 @@
-class CreateUserForm < Chassis::Form
+class CreateUserForm < Form
   attribute :name, String
   attribute :auth_token, String
   attribute :device, Hash

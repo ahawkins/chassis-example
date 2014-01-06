@@ -6,6 +6,8 @@ require 'securerandom'
 require 'active_support/concern'
 require 'active_support/core_ext/class'
 
+require_relative 'lib/validation'
+
 require_relative 'app/models/concerns/persistance'
 require_relative 'app/models/auth_token'
 require_relative 'app/models/device'
@@ -18,7 +20,7 @@ require_relative 'app/repos/user_repo'
 
 require_relative 'app/repos/adapters/in_memory_adapter'
 
-require_relative 'app/forms/concerns/validation'
+require_relative 'app/form'
 require_relative 'app/forms/user_token_form'
 require_relative 'app/forms/create_user_form'
 

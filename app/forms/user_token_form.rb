@@ -1,6 +1,4 @@
-class UserTokenForm < Chassis::Form
-  include Validation
-
+class UserTokenForm < Form
   attribute :phone_number, String
 
   def validate
