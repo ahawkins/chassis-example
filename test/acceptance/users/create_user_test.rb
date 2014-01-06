@@ -80,5 +80,8 @@ class CreateUserTest < MiniTest::Unit::TestCase
 
     post '/user_token', user_token: { phone_number: '' }
     assert_equal 422, last_response.status
+
+    post '/user_token', user_token: { phone_number: '3282314' }
+    assert_equal 422, last_response.status
   end
 end
