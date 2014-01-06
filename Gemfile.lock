@@ -1,12 +1,6 @@
 GIT
-  remote: git://github.com/ahawkins/virtus-dirty.git
-  revision: 5a6b4f1a8e0e6634b47534256e093921c795510c
-  specs:
-    virtus-dirty (0.1.0)
-      virtus (>= 1.0.0)
-
-PATH
-  remote: ~/projects/chassis
+  remote: git://github.com/ahawkins/chassis.git
+  revision: b2eac85548455f765bf0e4f99b25d5e90692e2c2
   specs:
     chassis (0.0.1)
       harness
@@ -17,6 +11,13 @@ PATH
       sinatra
       virtus (= 1.0.0)
       virtus-dirty
+
+GIT
+  remote: git://github.com/ahawkins/virtus-dirty.git
+  revision: 5a6b4f1a8e0e6634b47534256e093921c795510c
+  specs:
+    virtus-dirty (0.1.0)
+      virtus (>= 1.0.0)
 
 GEM
   remote: https://rubygems.org/

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rake'
 
-gem 'chassis', path: '~/projects/chassis'
+gem 'chassis', github: 'ahawkins/chassis'
 gem 'virtus-dirty', github: 'ahawkins/virtus-dirty'
 
 gem 'sinatra-contrib'
