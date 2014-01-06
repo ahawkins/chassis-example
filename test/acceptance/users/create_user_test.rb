@@ -100,4 +100,64 @@ class CreateUserTest < MiniTest::Unit::TestCase
 
     assert_equal 403, last_response.status
   end
+
+  def test_returns_422_when_auth_token_is_blank
+    post '/users', user: {
+      name: 'Adam',
+      auth_token: nil,
+      device: {
+        uuid: 'some-uuid',
+        push_token: 'some-token'
+      }
+    }
+
+    assert_equal 422, last_response.status
+  end
+
+  def test_raises_an_error_if_device_information_is_missing
+    post '/user_token', user_token: { phone_number: "+19253736317" }
+    assert_equal 202, last_response.status
+
+    refute_empty sms.messages
+    message = sms.messages.first
+    assert_equal '+19253736317', message.number
+    assert message.text, "SMS must contain the auth code"
+
+    post '/users', user: {
+      name: 'Adam',
+      auth_token: message.text
+    }
+
+    assert_equal 422, last_response.status
+  end
+
+  def test_raises_an_error_if_device_id_is_invalid
+    post '/user_token', user_token: { phone_number: "+19253736317" }
+    assert_equal 202, last_response.status
+
+    refute_empty sms.messages
+    message = sms.messages.first
+    assert_equal '+19253736317', message.number
+    assert message.text, "SMS must contain the auth code"
+
+    post '/users', user: {
+      name: 'Adam',
+      auth_token: message.text,
+      device: {
+        uuid: nil
+      }
+    }
+
+    assert_equal 422, last_response.status
+
+    post '/users', user: {
+      name: 'Adam',
+      auth_token: message.text,
+      device: {
+        uuid: ''
+      }
+    }
+
+    assert_equal 422, last_response.status
+  end
 end

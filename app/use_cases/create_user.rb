@@ -8,6 +8,8 @@ class CreateUser
   end
 
   def run!
+    form.validate!
+
     auth_token = AuthTokenRepo.find_by_code! form.auth_token
 
     user = User.create do |user|
