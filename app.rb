@@ -27,7 +27,23 @@ module App
   end
 end
 
-PermissionDenied = Class.new StandardError
+PermissionDeniedError = Class.new StandardError
+
+class ValidationError < StandardError
+  attr_reader :errors
+
+  def initialize(errors)
+    @errors = errors
+  end
+
+  def to_s
+    errors.full_messages
+  end
+
+  def as_json
+    errors.as_json
+  end
+end
 
 require_relative 'app/utils'
 

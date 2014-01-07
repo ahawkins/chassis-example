@@ -33,7 +33,7 @@ class UpdateGroup
   private
   def authorize!(group)
     if group.admin != current_user
-      raise PermissionDenied, "only admins can manage groups"
+      raise PermissionDeniedError, "only admins can manage groups"
     end
   end
 end

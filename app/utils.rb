@@ -17,7 +17,7 @@ class PhoneNumbersValidator
   end
 
   def validate!
-    raise Form::ValidationError, errors unless valid?
+    raise ValidationError, errors unless valid?
   end
 
   def each(&block)

@@ -78,7 +78,7 @@ class WebService < Sinatra::Base
     halt_json_error 404
   end
 
-  error PermissionDenied do
+  error PermissionDeniedError do
     halt_json_error 403
   end
 
@@ -86,7 +86,7 @@ class WebService < Sinatra::Base
     halt_json_error 412
   end
 
-  error Form::ValidationError do
+  error ValidationError do
     halt_json_error 422, errors: env['sinatra.error'].as_json
   end
 
