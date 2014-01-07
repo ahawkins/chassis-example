@@ -53,7 +53,17 @@ class CreateGroupTest < AcceptanceTestCase
     }}, { 'HTTP_X_TOKEN' => user.token }
 
     assert_equal 422, last_response.status
+    assert_includes last_response.content_type, 'application/json'
+    assert JSON.load(last_response.body).fetch('errors')
+  end
 
+  def test_returns_422_if_phone_numbers_are_in_wrong_format
+    post '/groups', { group: {
+      name: 'Test',
+      phone_numbers: ['341328']
+    }}, { 'HTTP_X_TOKEN' => user.token }
+
+    assert_equal 422, last_response.status
     assert_includes last_response.content_type, 'application/json'
     assert JSON.load(last_response.body).fetch('errors')
   end

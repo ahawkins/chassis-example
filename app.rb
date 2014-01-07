@@ -15,6 +15,18 @@ require 'active_model_serializers'
 
 I18n.enforce_available_locales = false
 
+module App
+  class << self
+    def env
+      ENV.fetch 'RACK_ENV', 'development'
+    end
+
+    def phone_number_regex
+      /\A\+\d+\z/
+    end
+  end
+end
+
 require_relative 'app/utils'
 
 require_relative 'app/models/concerns/persistance'
@@ -51,15 +63,6 @@ require_relative 'app/serializers/device_serializer'
 require_relative 'app/serializers/group_serializer'
 
 require_relative 'app/web_service'
-
-module App
-
-  class << self
-    def env
-      ENV.fetch 'RACK_ENV', 'development'
-    end
-  end
-end
 
 root = File.dirname __FILE__
 config_file = "#{root}/config/#{App.env}.rb"
