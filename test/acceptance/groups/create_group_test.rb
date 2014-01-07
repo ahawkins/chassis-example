@@ -28,6 +28,24 @@ class CreateGroupTest < AcceptanceTestCase
       "Groups must be admined by the user who created them"
   end
 
+  def test_adds_users_to_the_group_by_phone_numbers
+    other_user = create :user, phone_number: '+12345'
+
+    post '/groups', { group: {
+      name: 'Test',
+      phone_numbers: ['+12345']
+    }}, { 'HTTP_X_TOKEN' => user.token }
+
+    assert_equal 201, last_response.status
+
+    assert_equal 1, GroupRepo.count
+    group = GroupRepo.first
+
+    refute_empty group.users
+    assert_includes group.users, other_user
+    assert_includes group.users, user
+  end
+
   def test_returns_the_group_as_json
     post '/groups', { group: {
       name: 'Test'

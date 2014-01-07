@@ -11,7 +11,13 @@ class CreateGroup
     group = Group.new do |group|
       group.name = form.name
       group.admin = current_user
+
+      group.users = form.phone_numbers.map do |number|
+        UserRepo.find_by_phone_number! number
+      end
     end
+
+    group.users << current_user
 
     group.save
 

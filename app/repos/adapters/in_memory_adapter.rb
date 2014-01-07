@@ -21,4 +21,10 @@ class InMemoryAdapter < Chassis::Repo::InMemoryAdapter
       user.token == q.token
     end
   end
+
+  def query_user_with_phone_number(klass, q)
+    all(klass).find do |user|
+      user.phone_number == q.phone_number
+    end
+  end
 end
