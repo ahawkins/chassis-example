@@ -100,4 +100,14 @@ class WebService < Sinatra::Base
   get '/self' do
     json serialize(current_user)
   end
+
+  post '/groups' do
+    form = GroupForm.new extract!(:group)
+    use_case = CreateGroup.new form, current_user
+
+    group = use_case.run!
+
+    status 201
+    json serialize(group)
+  end
 end
