@@ -36,12 +36,30 @@ class CreateGroupTest < AcceptanceTestCase
     assert_equal 201, last_response.status
 
     assert_includes last_response.content_type, 'application/json'
-
     json = JSON.load(last_response.body).fetch('group')
 
     assert_kind_of String, json.fetch('id')
     assert json.fetch('name')
     assert_iso8601 json.fetch('created_at')
     assert_iso8601 json.fetch('updated_at')
+  end
+
+  def test_requires_a_name
+    post '/groups', { group: {
+      name: nil
+    }}, { 'HTTP_X_TOKEN' => user.token }
+
+    assert_equal 422, last_response.status
+
+    assert_includes last_response.content_type, 'application/json'
+    json = JSON.load(last_response.body)
+
+    assert json.fetch('message')
+    assert json.fetch('errors')
+  end
+
+  def test_requires_a_users_token
+    post '/groups', group: { name: 'test' }
+    assert_equal 412, last_response.status
   end
 end
