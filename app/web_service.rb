@@ -19,6 +19,12 @@ class WebService < Sinatra::Base
     end
   end
 
+  class AuthHeaderMissingError < StandardError
+    def to_s
+      "X-Token header missing"
+    end
+  end
+
   configure :production, :staging do
     enable :logging
   end
@@ -36,10 +42,20 @@ class WebService < Sinatra::Base
 
     def current_user
       token = env.fetch 'HTTP_X_TOKEN' do
-        halt 412, { 'Content-Type' => 'application/json' }, JSON.dump({message: 'X-Token header messing'})
+        raise AuthHeaderMissingError
       end
 
       UserRepo.find_by_token! token
+    end
+
+    def halt_json_error(code, errors = {})
+      json_error env.fetch('sinatra.error'), code, errors
+    end
+
+    def json_error(ex, code, errors = {})
+      halt code, { 'Content-Type' => 'application/json' }, JSON.dump({
+        message: ex.message
+      }.merge(errors))
     end
 
     def serialize(object, options = {})
@@ -51,26 +67,27 @@ class WebService < Sinatra::Base
   end
 
   error ParameterMissingError do
-    halt 400, { 'Content-Type' => 'application/json' }, JSON.dump(message: env['sinatra.error'].message)
+    halt_json_error 400
   end
 
   error UserRepo::UnknownTokenError do
-    halt 403, { 'Content-Type' => 'application/json' }, JSON.dump(message: env['sinatra.error'].message)
+    halt_json_error 403
   end
 
   error Chassis::Repo::RecordNotFoundError do
-    halt 404, { 'Content-Type' => 'application/json' }, JSON.dump(message: env['sinatra.error'].message)
+    halt_json_error 404
   end
 
   error PermissionDenied do
-    halt 403, { 'Content-Type' => 'application/json' }, JSON.dump(message: env['sinatra.error'].message)
+    halt_json_error 403
+  end
+
+  error AuthHeaderMissingError do
+    halt_json_error 412
   end
 
   error Form::ValidationError do
-    halt 422, { 'Content-Type' => 'application/json' }, JSON.dump({
-      message: 'validation failed',
-      errors: env['sinatra.error'].as_json
-    })
+    halt_json_error 422, errors: env['sinatra.error'].as_json
   end
 
   post '/user_token' do
@@ -91,7 +108,7 @@ class WebService < Sinatra::Base
       status 201
       json serialize(user, scope: user)
     rescue CreateUser::UnknownAuthCodeError => ex
-      halt 403, { 'Content-Type' => 'application/json' }, JSON.dump(message: ex.message)
+      json_error ex, 403
     end
   end
 
