@@ -30,7 +30,7 @@ class UserRepo
 
     def find_by_phone_number!(phone_number)
       user = query UserWithPhoneNumber.new(phone_number)
-      raise Unknownphone_numberError, phone_number if user.nil?
+      raise UnknownPhoneNumber, phone_number if user.nil?
       user
     end
   end

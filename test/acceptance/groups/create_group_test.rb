@@ -46,6 +46,18 @@ class CreateGroupTest < AcceptanceTestCase
     assert_includes group.users, user
   end
 
+  def test_returns_422_if_phone_number_does_not_exist
+    post '/groups', { group: {
+      name: 'Test',
+      phone_numbers: ['+12345']
+    }}, { 'HTTP_X_TOKEN' => user.token }
+
+    assert_equal 422, last_response.status
+
+    assert_includes last_response.content_type, 'application/json'
+    assert JSON.load(last_response.body).fetch('errors')
+  end
+
   def test_returns_users_in_the_json
     other_user = create :user, phone_number: '+12345'
 
