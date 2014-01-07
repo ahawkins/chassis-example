@@ -3,6 +3,12 @@ class SmsService
 
   DeliveryError = Class.new StandardError
 
+  class NullBackend
+    def deliver(number, message)
+
+    end
+  end
+
   class Twilio
     attr_reader :from_number, :account_sid
 

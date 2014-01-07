@@ -70,3 +70,6 @@ require_relative 'app/web_service'
 root = File.dirname __FILE__
 config_file = "#{root}/config/#{App.env}.rb"
 require config_file
+
+SmsService.backend ||= SmsService::NullBackend.new
+PushService.backend ||= PushService::NullBackend.new
