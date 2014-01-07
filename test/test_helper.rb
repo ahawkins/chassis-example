@@ -82,7 +82,7 @@ class AcceptanceTestCase < MiniTest::Unit::TestCase
     Chassis::Repo.instance.initialize_storage!
     Chassis::Repo.instance.clear
 
-    Sidekiq::Testing.inline!
+    Sidekiq::Testing.fake!
   end
 
   def teardown

@@ -13,6 +13,6 @@ class SendUserToken
       code: (rand * 10**6).to_i.to_s
     })
 
-    DeliverAuthToken.perform_async auth_token.id.to_s
+    SmsService.deliver form.phone_number, auth_token.code
   end
 end

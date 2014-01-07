@@ -57,8 +57,6 @@ require_relative 'app/use_cases/create_user'
 require_relative 'app/use_cases/update_device'
 require_relative 'app/use_cases/create_group'
 
-require_relative 'app/jobs/deliver_auth_token'
-
 require_relative 'app/push_notifications/new_group_push_notification'
 
 require_relative 'app/serializers/user_serializer'
