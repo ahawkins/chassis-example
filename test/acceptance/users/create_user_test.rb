@@ -58,6 +58,7 @@ class CreateUserTest < AcceptanceTestCase
 
     json = JSON.load(last_response.body).fetch('user')
 
+    assert_kind_of String, json.fetch('id')
     assert json.fetch('name')
     assert json.fetch('token')
 
