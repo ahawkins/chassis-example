@@ -46,6 +46,22 @@ class CreateGroupTest < AcceptanceTestCase
     assert_includes group.users, user
   end
 
+  def test_returns_users_in_the_json
+    other_user = create :user, phone_number: '+12345'
+
+    post '/groups', { group: {
+      name: 'Test',
+      phone_numbers: ['+12345']
+    }}, { 'HTTP_X_TOKEN' => user.token }
+
+    assert_equal 201, last_response.status
+
+    assert_includes last_response.content_type, 'application/json'
+    json = JSON.load(last_response.body).fetch('group')
+
+    assert_kind_of Array, json.fetch('users')
+  end
+
   def test_returns_the_group_as_json
     post '/groups', { group: {
       name: 'Test'
