@@ -4,4 +4,8 @@ class User
   include Chassis::HashInitializer
 
   attr_accessor :name, :phone_number, :token, :device
+
+  def push?
+    !!device.push_token
+  end
 end

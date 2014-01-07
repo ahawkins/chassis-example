@@ -22,6 +22,12 @@ class CreateGroup
 
     group.save
 
+    group.users.reject do |user|
+      user == current_user
+    end.each do |user|
+      PushService.push NewGroupPushNotification.new(group, user)
+    end
+
     group
   end
 end

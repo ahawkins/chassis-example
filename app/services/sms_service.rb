@@ -6,7 +6,6 @@ class SmsService
   class Twilio
     attr_reader :from_number, :account_sid
 
-
     class ErrorHandler < ::Faraday::Response::Middleware
       def on_complete(env)
         status = env.fetch :status

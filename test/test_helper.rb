@@ -46,6 +46,18 @@ class AcceptanceTestCase < MiniTest::Unit::TestCase
     end
   end
 
+  class FakePush
+    attr_reader :notifications
+
+    def initialize
+      @notifications = [ ]
+    end
+
+    def push(notification)
+      notifications << notification
+    end
+  end
+
   def app
     WebService
   end
@@ -54,12 +66,17 @@ class AcceptanceTestCase < MiniTest::Unit::TestCase
     SmsService.backend
   end
 
+  def push
+    PushService.backend
+  end
+
   def create(*args)
     Fabricate(*args)
   end
 
   def setup
     SmsService.backend = FakeSms.new
+    PushService.backend = FakePush.new
 
     Chassis::Repo.backend = RedisAdapter.new
     Chassis::Repo.instance.initialize_storage!

@@ -37,6 +37,7 @@ require_relative 'app/models/user'
 require_relative 'app/models/group'
 
 require_relative 'app/services/sms_service'
+require_relative 'app/services/push_service'
 
 require_relative 'app/repos/auth_token_repo'
 require_relative 'app/repos/user_repo'
@@ -57,6 +58,8 @@ require_relative 'app/use_cases/update_device'
 require_relative 'app/use_cases/create_group'
 
 require_relative 'app/jobs/deliver_auth_token'
+
+require_relative 'app/push_notifications/new_group_push_notification'
 
 require_relative 'app/serializers/user_serializer'
 require_relative 'app/serializers/device_serializer'

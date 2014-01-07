@@ -46,6 +46,27 @@ class CreateGroupTest < AcceptanceTestCase
     assert_includes group.users, user
   end
 
+  def test_sends_group_members_a_push_notification
+    other_user = create :user, phone_number: '+12345'
+
+    post '/groups', { group: {
+      name: 'Test',
+      phone_numbers: ['+12345']
+    }}, { 'HTTP_X_TOKEN' => user.token }
+
+    assert_equal 201, last_response.status
+
+    assert_equal 1, GroupRepo.count
+    group = GroupRepo.first
+
+    refute_empty push.notifications
+    notification = push.notifications.first
+
+    assert_kind_of NewGroupPushNotification, notification
+    assert_equal group, notification.group
+    assert_equal other_user, notification.user
+  end
+
   def test_returns_422_if_phone_number_does_not_exist
     post '/groups', { group: {
       name: 'Test',
