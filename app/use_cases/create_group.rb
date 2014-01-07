@@ -10,6 +10,7 @@ class CreateGroup
 
     group = Group.new do |group|
       group.name = form.name
+      group.admin = current_user
     end
 
     group.save

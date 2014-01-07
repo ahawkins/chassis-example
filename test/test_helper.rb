@@ -71,4 +71,8 @@ class AcceptanceTestCase < MiniTest::Unit::TestCase
   def teardown
     Sidekiq::Testing.fake!
   end
+
+  def assert_iso8601(value)
+    assert_match /\A\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}Z\z/, value, "Timestamp must be ISO 8601"
+  end
 end
