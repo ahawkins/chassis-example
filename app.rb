@@ -27,6 +27,8 @@ module App
   end
 end
 
+PermissionDenied = Class.new StandardError
+
 require_relative 'app/utils'
 
 require_relative 'app/models/concerns/persistance'
@@ -56,6 +58,7 @@ require_relative 'app/use_cases/send_user_token'
 require_relative 'app/use_cases/create_user'
 require_relative 'app/use_cases/update_device'
 require_relative 'app/use_cases/create_group'
+require_relative 'app/use_cases/update_group'
 
 require_relative 'app/push_notifications/new_group_push_notification'
 

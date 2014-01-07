@@ -58,6 +58,14 @@ class WebService < Sinatra::Base
     halt 403, { 'Content-Type' => 'application/json' }, JSON.dump(message: env['sinatra.error'].message)
   end
 
+  error Chassis::Repo::RecordNotFoundError do
+    halt 404, { 'Content-Type' => 'application/json' }, JSON.dump(message: env['sinatra.error'].message)
+  end
+
+  error PermissionDenied do
+    halt 403, { 'Content-Type' => 'application/json' }, JSON.dump(message: env['sinatra.error'].message)
+  end
+
   error Form::ValidationError do
     halt 422, { 'Content-Type' => 'application/json' }, JSON.dump({
       message: 'validation failed',
@@ -108,6 +116,16 @@ class WebService < Sinatra::Base
     group = use_case.run!
 
     status 201
+    json serialize(group)
+  end
+
+  put '/groups/:group_id' do |group_id|
+    form = GroupForm.new extract!(:group)
+    use_case = UpdateGroup.new group_id, form, current_user
+
+    group = use_case.run!
+
+    status 200
     json serialize(group)
   end
 end

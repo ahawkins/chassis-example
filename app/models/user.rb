@@ -8,4 +8,9 @@ class User
   def push?
     !!device.push_token
   end
+
+  def save
+    raise "Users must have tokens!" unless token
+    super
+  end
 end

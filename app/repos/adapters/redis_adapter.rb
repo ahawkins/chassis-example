@@ -8,13 +8,13 @@ class RedisAdapter < InMemoryAdapter
 
     def []=(id, obj)
       map = read
-      map[id] = obj
+      map[id.to_s] = obj
 
       write map
     end
 
     def [](id)
-      read.fetch id
+      read[id.to_s]
     end
 
     def values
@@ -23,7 +23,7 @@ class RedisAdapter < InMemoryAdapter
 
     def delete(id)
       map = read
-      map.delete id
+      map.delete id.to_s
       write map
     end
 
