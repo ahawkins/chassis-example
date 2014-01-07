@@ -15,6 +15,8 @@ require 'active_model_serializers'
 
 I18n.enforce_available_locales = false
 
+require_relative 'app/utils'
+
 require_relative 'app/models/concerns/persistance'
 require_relative 'app/models/concerns/serialization'
 require_relative 'app/models/auth_token'
@@ -51,6 +53,7 @@ require_relative 'app/serializers/group_serializer'
 require_relative 'app/web_service'
 
 module App
+
   class << self
     def env
       ENV.fetch 'RACK_ENV', 'development'
