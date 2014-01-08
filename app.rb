@@ -10,6 +10,7 @@ require 'sinatra/json'
 require 'active_support/concern'
 require 'active_support/core_ext/class'
 require 'active_support/core_ext/string'
+require 'active_support/core_ext/hash'
 
 require 'active_model_serializers'
 
@@ -69,12 +70,14 @@ require_relative 'app/forms/user_token_form'
 require_relative 'app/forms/create_user_form'
 require_relative 'app/forms/device_form'
 require_relative 'app/forms/group_form'
+require_relative 'app/forms/groups_query_form'
 
 require_relative 'app/use_cases/send_user_token'
 require_relative 'app/use_cases/create_user'
 require_relative 'app/use_cases/update_device'
 require_relative 'app/use_cases/create_group'
 require_relative 'app/use_cases/update_group'
+require_relative 'app/use_cases/query_groups'
 
 require_relative 'app/push_notifications/new_group_push_notification'
 

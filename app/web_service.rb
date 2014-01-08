@@ -145,4 +145,12 @@ class WebService < Sinatra::Base
     status 200
     json serialize(group)
   end
+
+  get '/groups' do
+    form = GroupsQueryForm.from_params params
+    use_case = QueryGroups.new form, current_user
+
+    status 200
+    json serialize(use_case.results, root: :groups)
+  end
 end

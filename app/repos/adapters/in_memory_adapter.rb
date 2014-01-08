@@ -27,4 +27,18 @@ class InMemoryAdapter < Chassis::Repo::InMemoryAdapter
       user.phone_number == q.phone_number
     end
   end
+
+  def query_groups_for_user(klass, q)
+    set = all(klass).select do |group|
+      group.users.include? q.user
+    end
+
+    if q.updated_after
+      set.select! do |group|
+        group.updated_at.utc >= q.updated_after.utc
+      end
+    end
+
+    set
+  end
 end
