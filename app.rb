@@ -78,6 +78,7 @@ require_relative 'app/use_cases/update_device'
 require_relative 'app/use_cases/create_group'
 require_relative 'app/use_cases/update_group'
 require_relative 'app/use_cases/query_groups'
+require_relative 'app/use_cases/delete_group'
 
 require_relative 'app/push_notifications/new_group_push_notification'
 

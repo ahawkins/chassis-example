@@ -153,4 +153,11 @@ class WebService < Sinatra::Base
     status 200
     json serialize(use_case.results, root: :groups)
   end
+
+  delete '/groups/:group_id' do |group_id|
+    use_case = DeleteGroup.new group_id, current_user
+    use_case.run!
+
+    nil
+  end
 end
