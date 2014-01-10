@@ -6,4 +6,8 @@ Fabricator :picture do
   width 100
   bytes 200
   user
+
+  after_save do |picture|
+    ImageService.store picture
+  end
 end

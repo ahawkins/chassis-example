@@ -182,4 +182,10 @@ class WebService < Sinatra::Base
     use_case = GetPictures.new group_id, current_user
     json serialize(use_case.pictures, root: :pictures)
   end
+
+  delete '/groups/:group_id/pictures/:picture_id' do |group_id, picture_id|
+    use_case = DeletePicture.new group_id, picture_id, current_user
+    use_case.run!
+    nil
+  end
 end

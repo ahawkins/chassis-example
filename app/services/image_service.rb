@@ -22,14 +22,45 @@ class ImageService
       end
     end
 
+    def initialize
+      @images = []
+    end
+
     def upload(file)
       UploadResult.generate
+    end
+
+    def store(picture)
+      images << picture
+    end
+
+    def empty?
+      images.empty?
+    end
+
+    def delete(id)
+      images.delete_if do |picture|
+        picture.id == id
+      end
+    end
+
+    private
+    def images
+      @images
     end
   end
 
   class << self
     def upload(file)
       backend.upload file
+    end
+
+    def store(picture)
+      backend.store picture
+    end
+
+    def delete(id)
+      backend.delete id
     end
   end
 end
