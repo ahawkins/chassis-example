@@ -174,4 +174,23 @@ class CreateUserTest < AcceptanceTestCase
 
     assert_equal 422, last_response.status
   end
+
+  def test_has_backstage_route_to_shortcuit_auth
+    post '/backstage/users', user: {
+      name: 'Adam'
+    }
+
+    assert_equal 201, last_response.status
+
+    assert_equal 1, UserRepo.count
+    db = UserRepo.first
+
+    assert_equal 'Adam', db.name
+    assert db.phone_number
+
+    assert db.device.uuid
+    refute db.device.push_token
+
+    assert_empty AuthTokenRepo, "Auth token should be deleted after use"
+  end
 end

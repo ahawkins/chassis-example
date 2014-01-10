@@ -112,6 +112,26 @@ class WebService < Sinatra::Base
     end
   end
 
+  post '/backstage/users' do
+    auth_token = AuthToken.create do |auth|
+      auth.code = SecureRandom.uuid
+      auth.phone_number = '+12348329848'
+    end
+
+    form = CreateUserForm.new extract!(:user)
+    form.device = {
+      'uuid' => SecureRandom.uuid,
+      'push_token' => nil
+    }
+    form.auth_token = auth_token.code
+
+    use_case = CreateUser.new form
+    user = use_case.run!
+
+    status 201
+    json serialize(user, scope: user)
+  end
+
   put '/device' do
     form = DeviceForm.new extract!(:device)
     use_case = UpdateDevice.new form, current_user
