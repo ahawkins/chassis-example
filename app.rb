@@ -54,9 +54,11 @@ require_relative 'app/models/auth_token'
 require_relative 'app/models/device'
 require_relative 'app/models/user'
 require_relative 'app/models/group'
+require_relative 'app/models/picture'
 
 require_relative 'app/services/sms_service'
 require_relative 'app/services/push_service'
+require_relative 'app/services/image_service'
 
 require_relative 'app/repos/auth_token_repo'
 require_relative 'app/repos/user_repo'
@@ -71,6 +73,7 @@ require_relative 'app/forms/create_user_form'
 require_relative 'app/forms/device_form'
 require_relative 'app/forms/group_form'
 require_relative 'app/forms/groups_query_form'
+require_relative 'app/forms/picture_form'
 
 require_relative 'app/use_cases/send_user_token'
 require_relative 'app/use_cases/create_user'
@@ -79,12 +82,16 @@ require_relative 'app/use_cases/create_group'
 require_relative 'app/use_cases/update_group'
 require_relative 'app/use_cases/query_groups'
 require_relative 'app/use_cases/delete_group'
+require_relative 'app/use_cases/find_group'
+require_relative 'app/use_cases/add_picture'
 
 require_relative 'app/push_notifications/new_group_push_notification'
+require_relative 'app/push_notifications/new_picture_push_notification'
 
 require_relative 'app/serializers/user_serializer'
 require_relative 'app/serializers/device_serializer'
 require_relative 'app/serializers/group_serializer'
+require_relative 'app/serializers/picture_serializer'
 
 require_relative 'app/web_service'
 
@@ -94,3 +101,4 @@ require config_file
 
 SmsService.backend ||= SmsService::NullBackend.new
 PushService.backend ||= PushService::NullBackend.new
+ImageService.backend ||= ImageService::NullBackend.new

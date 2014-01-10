@@ -7,6 +7,5 @@ class QueryGroups
 
   def results
     GroupRepo.for_user current_user, form.attributes
-
   end
 end

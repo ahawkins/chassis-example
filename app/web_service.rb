@@ -154,10 +154,27 @@ class WebService < Sinatra::Base
     json serialize(use_case.results, root: :groups)
   end
 
+  get '/groups/:id' do |group_id|
+    use_case = FindGroup.new group_id, current_user
+
+    status 200
+    json serialize(use_case.group)
+  end
+
   delete '/groups/:group_id' do |group_id|
     use_case = DeleteGroup.new group_id, current_user
     use_case.run!
 
     nil
+  end
+
+  post '/groups/:group_id/pictures' do |group_id|
+    form = PictureForm.new extract!(:picture)
+    use_case = AddPicture.new group_id, form, current_user
+
+    picture = use_case.run!
+
+    status 201
+    json serialize(picture)
   end
 end
