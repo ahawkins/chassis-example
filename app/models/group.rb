@@ -9,7 +9,7 @@ class Group
 
   def initialize(*args, &block)
     super
-    @pictures ||= []
+    @pictures ||= PictureCollection.new self
   end
 
   def save

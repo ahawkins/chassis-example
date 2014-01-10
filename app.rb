@@ -55,6 +55,7 @@ require_relative 'app/models/device'
 require_relative 'app/models/user'
 require_relative 'app/models/group'
 require_relative 'app/models/picture'
+require_relative 'app/models/picture_collection'
 
 require_relative 'app/services/sms_service'
 require_relative 'app/services/push_service'

@@ -3,10 +3,6 @@ require_relative '../../test_helper'
 class DeletePictureTest < AcceptanceTestCase
   attr_reader :user, :group, :picture
 
-  def image_service
-    ImageService.backend
-  end
-
   def setup
     super
     @user = create :user
@@ -35,6 +31,7 @@ class DeletePictureTest < AcceptanceTestCase
       'HTTP_X_TOKEN' => user.token
     }
 
+    assert_equal 200, last_response.status
     assert_empty image_service, "Images should be deleted remotely"
   end
 
@@ -58,5 +55,15 @@ class DeletePictureTest < AcceptanceTestCase
     }
 
     assert_equal 403, last_response.status
+  end
+
+  def test_allows_the_admin_to_delete
+    assert_equal picture.group, group, "Precondition: groups must be equal"
+
+    delete "/groups/#{group.id}/pictures/#{picture.id}", { }, {
+      'HTTP_X_TOKEN' => group.admin.token
+    }
+
+    assert_equal 200, last_response.status
   end
 end

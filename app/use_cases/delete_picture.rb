@@ -36,6 +36,8 @@ class DeletePicture
   end
 
   def authorize!(picture)
+    return if picture.group.admin == current_user
+
     if picture.user != current_user
       raise PermissionDeniedError, "Only the upload may delete pictures"
     end

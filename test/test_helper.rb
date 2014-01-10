@@ -64,6 +64,10 @@ class AcceptanceTestCase < MiniTest::Unit::TestCase
     WebService
   end
 
+  def image_service
+    ImageService.backend
+  end
+
   def sms
     SmsService.backend
   end
@@ -79,6 +83,7 @@ class AcceptanceTestCase < MiniTest::Unit::TestCase
   def setup
     SmsService.backend = FakeSms.new
     PushService.backend = FakePush.new
+    ImageService.backend = ImageService::NullBackend.new
 
     Chassis::Repo.backend = RedisAdapter.new
     Chassis::Repo.instance.initialize_storage!
