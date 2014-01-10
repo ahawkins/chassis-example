@@ -1,5 +1,4 @@
 require_relative '../../test_helper'
-require 'pathname'
 
 class CreatePictureTest < AcceptanceTestCase
   attr_reader :user, :group, :photo_file

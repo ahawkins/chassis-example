@@ -7,6 +7,7 @@ require 'minitest/autorun'
 require 'minitest/mock'
 require 'rack/test'
 require 'fabrication'
+require 'pathname'
 
 require 'sidekiq/testing'
 Sidekiq::Testing.fake!

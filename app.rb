@@ -84,6 +84,7 @@ require_relative 'app/use_cases/query_groups'
 require_relative 'app/use_cases/delete_group'
 require_relative 'app/use_cases/find_group'
 require_relative 'app/use_cases/add_picture'
+require_relative 'app/use_cases/get_pictures'
 
 require_relative 'app/push_notifications/new_group_push_notification'
 require_relative 'app/push_notifications/new_picture_push_notification'

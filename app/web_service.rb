@@ -177,4 +177,9 @@ class WebService < Sinatra::Base
     status 201
     json serialize(picture)
   end
+
+  get '/groups/:group_id/pictures' do |group_id|
+    use_case = GetPictures.new group_id, current_user
+    json serialize(use_case.pictures, root: :pictures)
+  end
 end
