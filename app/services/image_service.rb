@@ -44,6 +44,10 @@ class ImageService
       end
     end
 
+    def clear
+      images.clear
+    end
+
     private
     def images
       @images
@@ -61,6 +65,10 @@ class ImageService
 
     def delete(id)
       backend.delete id
+    end
+
+    def clear
+      backend.clear
     end
   end
 end
