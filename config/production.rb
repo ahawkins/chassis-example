@@ -1,5 +1,3 @@
-require 'uri'
-
 $stdout.sync = true
 $stderr.sync = true
 
