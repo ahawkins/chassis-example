@@ -1,6 +1,8 @@
 class ImageService
   cattr_accessor :backend
 
+  RequestError = Class.new StandardError
+
   class << self
     def upload(file)
       backend.upload file

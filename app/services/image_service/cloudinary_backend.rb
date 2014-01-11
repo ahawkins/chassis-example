@@ -67,6 +67,8 @@ class ImageService
 
       response = http.post "/v1_1/#{cloud_name}/image/upload", params
 
+      raise RequestError, response.body if response.status != 200
+
       image = CloudinaryImage.new(JSON.parse(response.body))
 
       image
@@ -98,7 +100,9 @@ class ImageService
 
       params[:signature] = sign params
 
-      http.delete "/v1_1/#{cloud_name}/image/destroy", params
+      response = http.delete "/v1_1/#{cloud_name}/image/destroy", params
+
+      raise RequestError, response.body if response.status != 200
 
       deleted[id] = true
     end
