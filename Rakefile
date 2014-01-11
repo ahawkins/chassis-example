@@ -1,12 +1,21 @@
 require 'bundler/setup'
 require 'rake/testtask'
 
-desc "Run tests"
-Rake::TestTask.new :test do |t|
-  t.test_files = Rake::FileList['test/**/*_test.rb']
+namespace :test do
+  desc "Run tests in quick mode"
+  Rake::TestTask.new :all do |t|
+    t.test_files = Rake::FileList['test/**/*_test.rb']
+  end
+
+  desc "Run tests against real services"
+  task ci: ['ci_env', 'all']
+
+  task :ci_env do
+    ENV['CI'] = 'true'
+  end
 end
 
-task default: :test
+task default: 'test:all'
 
 task :environment do
   root = File.dirname __FILE__

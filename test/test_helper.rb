@@ -13,7 +13,7 @@ require 'sidekiq/testing'
 Sidekiq::Testing.fake!
 
 require 'webmock/minitest'
-WebMock.disable_net_connect!
+WebMock.disable_net_connect! allow: /cloudinary/
 
 class BacktraceFilter
   def filter(bt)
@@ -30,6 +30,16 @@ class BacktraceFilter
 end
 
 MiniTest.backtrace_filter = BacktraceFilter.new
+
+class MiniTest::Unit::TestCase
+  def cloudinary_url
+    'cloudinary://152823543227467:8c7WbzmM4Rk7Dl1RZsnR_RIpD3k@haeunwn44'
+  end
+
+  def ci?
+    ENV.key? 'CI'
+  end
+end
 
 class AcceptanceTestCase < MiniTest::Unit::TestCase
   include Rack::Test::Methods
@@ -80,10 +90,26 @@ class AcceptanceTestCase < MiniTest::Unit::TestCase
     Fabricate(*args)
   end
 
+  def repo_adapter
+    if ci?
+      RedisAdapter.new
+    else
+      InMemoryAdapter.new
+    end
+  end
+
+  def image_service_adapter
+    if ci?
+      ImageService::Cloudinary.new cloudinary_url
+    else
+      ImageService::NullBackend.new
+    end
+  end
+
   def setup
     SmsService.backend = FakeSms.new
     PushService.backend = FakePush.new
-    ImageService.backend = ImageService::NullBackend.new
+    ImageService.backend = image_service_adapter
 
     Chassis::Repo.backend = RedisAdapter.new
     Chassis::Repo.instance.initialize_storage!
