@@ -111,7 +111,7 @@ class AcceptanceTestCase < MiniTest::Unit::TestCase
     PushService.backend = FakePush.new
     ImageService.backend = image_service_adapter
 
-    Chassis::Repo.backend = RedisAdapter.new
+    Chassis::Repo.backend = repo_adapter
     Chassis::Repo.instance.initialize_storage!
     Chassis::Repo.instance.clear
 
