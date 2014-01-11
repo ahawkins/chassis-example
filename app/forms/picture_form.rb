@@ -1,50 +1,5 @@
 class PictureForm < Form
   class ImageUpload < Virtus::Attribute
-    class MultipartImageUpload
-      attr_reader :hash
-
-      def initialize(hash)
-        @hash = hash
-      end
-
-      def bytes
-        tempfile.size
-      end
-
-      def path
-        tempfile.path
-      end
-
-      def content_type
-        hash.fetch :type
-      end
-
-      private
-      def tempfile
-        hash.fetch :tempfile
-      end
-    end
-
-    class ImageFileUpload
-      attr_reader :file
-
-      def initialize(file)
-        @file = file
-      end
-
-      def bytes
-        file.size
-      end
-
-      def path
-        file.path
-      end
-
-      def content_type
-        'image/jpeg'
-      end
-    end
-
     def coerce(value)
       if value.is_a?(::Hash)
         MultipartImageUpload.new value
