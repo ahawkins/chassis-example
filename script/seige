@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+require 'net/http'
+require 'json'
+require 'securerandom'
+
+#heroku run rake sidekiq:clear repo:clear
+
+puts "Creating test user"
+uri = URI('http://photo-app-backend-production.herokuapp.com/backstage/users')
+req = Net::HTTP::Post.new uri
+req.content_type = 'application/json'
+req.body = JSON.dump({
+  user: { name: 'Joe Test' }
+})
+
+res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(req)
+end
+
+user_token = JSON.load(res.body).fetch('user').fetch('token')
+
+puts "Creating test group"
+uri = URI('http://photo-app-backend-production.herokuapp.com/groups')
+req = Net::HTTP::Post.new uri
+req.content_type = 'application/json'
+req['X-Token'] = user_token
+req.body = JSON.dump({
+  group: { name: "Test #{SecureRandom.hex(8)}" }
+})
+
+res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+  http.request(req)
+end
+
+group_id = JSON.load(res.body).fetch('group').fetch('id')
+
+args = ARGV.dup
+url = args.pop
+args << "http://photo-app-backend-production.herokuapp.com#{url}"
+
+ENV['GROUP_ID'] = group_id
+
+#siege_command = %Q{siege -H 'X-Token: #{user_token}' #{args.join(' ')}}
+siege_command = %Q{ab -H 'X-Token: #{user_token}' #{args.join(' ')}}
+puts "Running: #{siege_command}"
+exec siege_command
