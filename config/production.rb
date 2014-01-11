@@ -7,7 +7,8 @@ twilio_account_sid = ENV.fetch 'TWILIO_ACCOUNT_SID'
 twilio_auth_token = ENV.fetch 'TWILIO_AUTH_TOKEN'
 twilio_number = ENV.fetch 'TWILIO_NUMBER'
 
-SmsService.backend = SmsService::Twilio.new twilio_account_sid, twilio_auth_token, twilio_number
+SmsService.backend = SmsService::TwilioBackend.new twilio_account_sid, twilio_auth_token, twilio_number
+ImageService.backend = ImageService::CloudinaryBackend.new ENV.fetch 'CLOUDINARY_URL'
 
 Sidekiq.configure_server do |config|
   config.redis = { url: ENV.fetch('REDISCLOUD_URL'), namespace: 'sidekiq' }
