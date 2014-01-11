@@ -8,7 +8,7 @@ class WebService < Sinatra::Base
       req = Rack::Request.new env
       override = req.params['_method']
 
-      env['REQEUST_METHOD'] = override.upcase if override
+      env['REQUEST_METHOD'] = override.upcase if override
 
       @app.call env
     end
