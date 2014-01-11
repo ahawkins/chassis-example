@@ -7,7 +7,9 @@ Fabricator :picture do
   bytes 200
   user
 
-  after_save do |picture|
-    ImageService.store picture
+  before_save do |picture|
+    fixture_photo = File.expand_path('../../fixtures/photo.jpeg', __FILE__)
+    result = ImageService.upload(ImageFile.new(fixture_photo, 'image/jpeg'))
+    picture.id = result.id
   end
 end

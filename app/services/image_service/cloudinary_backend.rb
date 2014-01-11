@@ -42,21 +42,8 @@ class ImageService
 
     def initialize(cloudinary_url)
       @cloudinary_uri = URI(cloudinary_url)
-      @store = [ ]
-    end
-
-    def store(picture)
-      @store << picture
-    end
-
-    def empty?
-      @store.empty?
-    end
-
-    def delete(id)
-      @store.delete_if do |picture|
-        picture.id == id
-      end
+      @existing = { }
+      @deleted = { }
     end
 
     def upload(file)
@@ -80,7 +67,40 @@ class ImageService
 
       response = http.post "/v1_1/#{cloud_name}/image/upload", params
 
-      CloudinaryImage.new JSON.parse(response.body)
+      image = CloudinaryImage.new(JSON.parse(response.body))
+
+      image
+    end
+
+    def exists?(id)
+      return false if deleted[id]
+
+      http = Faraday.new url: 'http://res.cloudinary.com' do |conn|
+        conn.adapter :net_http
+      end
+      response = http.get("/#{cloud_name}/image/upload/#{id}.jpg").status.to_i == 200
+    end
+
+    def delete(id)
+      http = Faraday.new url: 'https://api.cloudinary.com' do |conn|
+        conn.request :url_encoded
+
+        conn.adapter :net_http
+      end
+
+      timestamp = Time.now.to_i
+
+      params = {
+        public_id: id,
+        api_key: api_key,
+        timestamp: timestamp,
+      }
+
+      params[:signature] = sign params
+
+      http.delete "/v1_1/#{cloud_name}/image/destroy", params
+
+      deleted[id] = true
     end
 
     private
@@ -94,6 +114,14 @@ class ImageService
       end.join('&')
 
       Digest::SHA1.hexdigest "#{signed_values}#{api_secret}"
+    end
+
+    def existing
+      @existing
+    end
+
+    def deleted
+      @deleted
     end
 
     def api_key

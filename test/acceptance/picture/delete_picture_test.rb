@@ -25,14 +25,14 @@ class DeletePictureTest < AcceptanceTestCase
   end
 
   def test_deletes_the_image_from_the_image_service
-    refute_empty image_service, "Precondtion: Image must be in the image service"
+    assert image_service.exists?(picture.id), "Precondtion: Image must be in the image service"
 
     delete "/groups/#{group.id}/pictures/#{picture.id}", { }, {
       'HTTP_X_TOKEN' => user.token
     }
 
     assert_equal 200, last_response.status
-    assert_empty image_service, "Images should be deleted remotely"
+    refute image_service.exists?(picture.id), "Images should be deleted remotely"
   end
 
   def test_response_does_not_have_a_body

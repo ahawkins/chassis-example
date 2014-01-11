@@ -26,25 +26,21 @@ class ImageService
     end
 
     def upload(file)
-      UploadResult.generate
+      result = UploadResult.generate
+      images << result
+      result
     end
 
-    def store(picture)
-      images << picture
-    end
-
-    def empty?
-      images.empty?
+    def exists?(id)
+      !!images.find do |picture|
+        picture.id == id
+      end
     end
 
     def delete(id)
       images.delete_if do |picture|
         picture.id == id
       end
-    end
-
-    def clear
-      images.clear
     end
 
     private
