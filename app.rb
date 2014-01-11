@@ -56,8 +56,9 @@ require_relative 'app/models/user'
 require_relative 'app/models/group'
 require_relative 'app/models/picture'
 require_relative 'app/models/picture_collection'
-require_relative 'app/models/image_file_upload'
-require_relative 'app/models/multipart_image_upload'
+require_relative 'app/models/image_file'
+# require_relative 'app/models/image_file_upload'
+# require_relative 'app/models/multipart_image_upload'
 
 require_relative 'app/services/sms_service'
 require_relative 'app/services/push_service'
@@ -99,6 +100,9 @@ require_relative 'app/serializers/group_serializer'
 require_relative 'app/serializers/picture_serializer'
 
 require_relative 'app/web_service'
+
+require_relative 'app/core_ext/hash'
+require_relative 'app/core_ext/file'
 
 root = File.dirname __FILE__
 config_file = "#{root}/config/#{App.env}.rb"

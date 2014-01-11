@@ -15,14 +15,14 @@ class AddPicture
     picture = Picture.new do |picture|
       picture.user = current_user
 
-      picture.bytes = form.file.bytes
-
       picture.date = Time.now.utc
+
+      picture.id = cloud.id
 
       picture.full_size_url = cloud.full_size_url
       picture.thumbnail_url = cloud.thumbnail_url
-      picture.id = cloud.id
 
+      picture.bytes = cloud.bytes
       picture.width = cloud.width
       picture.height = cloud.height
     end

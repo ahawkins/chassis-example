@@ -1,11 +1,7 @@
 class PictureForm < Form
   class ImageUpload < Virtus::Attribute
     def coerce(value)
-      if value.is_a?(::Hash)
-        MultipartImageUpload.new value
-      elsif value.is_a?(File)
-        ImageFileUpload.new value
-      end
+      value.respond_to?(:to_image_file) ? value.to_image_file : value
     end
   end
 

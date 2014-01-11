@@ -2,7 +2,7 @@ class ImageService
   class FakeBackend
     class UploadResult
       attr_accessor :id, :full_size_url, :thumbnail_url
-      attr_accessor :width, :height
+      attr_accessor :width, :height, :bytes
 
       class << self
         def generate
@@ -14,6 +14,7 @@ class ImageService
 
           result.width = 150
           result.height = 200
+          result.bytes = 1024
 
           result
         end
