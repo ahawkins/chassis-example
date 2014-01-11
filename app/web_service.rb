@@ -1,4 +1,21 @@
 class WebService < Sinatra::Base
+  class MethodOverrideHack
+    def initialize(app)
+      @app = app
+    end
+
+    def call(env)
+      req = Rack::Request.new env
+      override = req.params['_method']
+
+      env['REQEUST_METHOD'] = override.upcase if override
+
+      @app.call env
+    end
+  end
+
+  use MethodOverrideHack
+
   use Chassis::Rack::Ping
   use Chassis::Rack::Bouncer
   use Rack::BounceFavicon
