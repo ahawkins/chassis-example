@@ -106,4 +106,4 @@ require config_file
 
 SmsService.backend ||= SmsService::NullBackend.new
 PushService.backend ||= PushService::NullBackend.new
-ImageService.backend ||= ImageService::NullBackend.new
+ImageService.backend ||= ImageService::FakeBackend.new

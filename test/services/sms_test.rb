@@ -24,7 +24,7 @@ class SmsServiceTest < MiniTest::Unit::TestCase
   end
 
   def setup
-    SmsService.backend = SmsService::Twilio.new account_sid, auth_token, from_number
+    SmsService.backend = SmsService::TwilioBackend.new account_sid, auth_token, from_number
     Sidekiq::Testing.inline!
   end
 

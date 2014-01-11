@@ -13,3 +13,5 @@ class PushService
     end
   end
 end
+
+require_relative 'push_service/fake_backend'

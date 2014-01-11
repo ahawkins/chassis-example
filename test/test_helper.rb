@@ -39,40 +39,6 @@ class MiniTest::Unit::TestCase
   def ci?
     ENV.key? 'CI'
   end
-end
-
-class AcceptanceTestCase < MiniTest::Unit::TestCase
-  include Rack::Test::Methods
-
-  class FakeSms
-    Sms = Struct.new :number, :text
-
-    attr_reader :messages
-
-    def initialize
-      @messages = [ ]
-    end
-
-    def deliver(number, msg)
-      messages << Sms.new(number, msg)
-    end
-  end
-
-  class FakePush
-    attr_reader :notifications
-
-    def initialize
-      @notifications = [ ]
-    end
-
-    def push(notification)
-      notifications << notification
-    end
-  end
-
-  def app
-    WebService
-  end
 
   def image_service
     ImageService.backend
@@ -84,6 +50,14 @@ class AcceptanceTestCase < MiniTest::Unit::TestCase
 
   def push
     PushService.backend
+  end
+end
+
+class AcceptanceTestCase < MiniTest::Unit::TestCase
+  include Rack::Test::Methods
+
+  def app
+    WebService
   end
 
   def create(*args)
@@ -100,15 +74,15 @@ class AcceptanceTestCase < MiniTest::Unit::TestCase
 
   def image_service_adapter
     if ci?
-      ImageService::Cloudinary.new cloudinary_url
+      ImageService::CloudinaryBackend.new cloudinary_url
     else
-      ImageService::NullBackend.new
+      ImageService::FakeBackend.new
     end
   end
 
   def setup
-    SmsService.backend = FakeSms.new
-    PushService.backend = FakePush.new
+    SmsService.backend = SmsService::FakeBackend.new
+    PushService.backend = PushService::FakeBackend.new
     ImageService.backend = image_service_adapter
 
     Chassis::Repo.backend = repo_adapter

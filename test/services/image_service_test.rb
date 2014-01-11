@@ -10,7 +10,7 @@ class ImageServiceTest < MiniTest::Unit::TestCase
   end
 
   def setup
-    ImageService.backend = ImageService::Cloudinary.new cloudinary_url
+    ImageService.backend = ImageService::CloudinaryBackend.new cloudinary_url
   end
 
   def test_round_trips_images
