@@ -6,4 +6,6 @@ class PictureForm < Form
   end
 
   attribute :file, ImageUpload
+
+  validates :file, presence: true
 end

@@ -6,6 +6,8 @@ class AddPicture
   end
 
   def run!
+    form.validate!
+
     group = GroupRepo.find group_id
 
     authorize! group

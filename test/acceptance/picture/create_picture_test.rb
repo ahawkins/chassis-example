@@ -70,6 +70,14 @@ class CreatePictureTest < AcceptanceTestCase
     assert_equal 403, last_response.status
   end
 
+  def test_requires_a_file
+    post "/groups/#{group.id}/pictures", { picture: {
+      file: nil
+    }}, { 'HTTP_X_TOKEN' => user.token }
+
+    assert_equal 422, last_response.status
+  end
+
   def test_sends_push_notification_to_the_group_members
     other_user = create :user
     @group = create :group, users: [user, other_user]
