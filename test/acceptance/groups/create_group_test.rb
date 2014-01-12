@@ -130,9 +130,7 @@ class CreateGroupTest < AcceptanceTestCase
 
     assert_includes last_response.content_type, 'application/json'
     json = JSON.load(last_response.body)
-
-    assert json.fetch('message')
-    assert json.fetch('errors')
+    assert json.fetch('error')
   end
 
   def test_requires_a_users_token

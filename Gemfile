@@ -6,7 +6,6 @@ gem 'rake'
 
 gem 'chassis', github: 'ahawkins/chassis'
 
-gem 'sinatra-contrib'
 gem 'puma'
 gem 'sidekiq'
 

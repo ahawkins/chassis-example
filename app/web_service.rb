@@ -1,4 +1,4 @@
-class WebService < Sinatra::Base
+class WebService < Chassis::WebService
   class MethodOverrideHack
     def initialize(app)
       @app = app
@@ -15,26 +15,9 @@ class WebService < Sinatra::Base
   end
 
   use MethodOverrideHack
-
   use Chassis::Rack::Ping
-  use Chassis::Rack::Bouncer
-  use Rack::BounceFavicon
-
   use Chassis::Rack::Instrumentation
-  use Manifold::Middleware
-  use Rack::Deflater
-
   use Rack::PostBodyContentTypeParser
-
-  class ParameterMissingError < StandardError
-    def initialize(key)
-      @key = key
-    end
-
-    def to_s
-      %Q{Request did not provide "#{@key}"}
-    end
-  end
 
   class AuthHeaderMissingError < StandardError
     def to_s
@@ -47,32 +30,12 @@ class WebService < Sinatra::Base
   end
 
   helpers do
-    def extract!(key)
-      value = params.fetch(key.to_s) do
-        raise ParameterMissingError, key
-      end
-
-      raise ParameterMissingError, key unless value.is_a?(Hash)
-
-      value
-    end
-
     def current_user
       token = env.fetch 'HTTP_X_TOKEN' do
         raise AuthHeaderMissingError
       end
 
       UserRepo.find_by_token! token
-    end
-
-    def halt_json_error(code, errors = {})
-      json_error env.fetch('sinatra.error'), code, errors
-    end
-
-    def json_error(ex, code, errors = {})
-      halt code, { 'Content-Type' => 'application/json' }, JSON.dump({
-        message: ex.message
-      }.merge(errors))
     end
 
     def serialize(object, options = {})
@@ -83,16 +46,8 @@ class WebService < Sinatra::Base
     end
   end
 
-  error ParameterMissingError do
-    halt_json_error 400
-  end
-
   error UserRepo::UnknownTokenError do
     halt_json_error 403
-  end
-
-  error Chassis::Repo::RecordNotFoundError do
-    halt_json_error 404
   end
 
   error PermissionDeniedError do

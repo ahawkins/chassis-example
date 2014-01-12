@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/ahawkins/chassis.git
-  revision: ef9ad45bcd6bab6f76501da9eec007c94431156f
+  revision: fd2fc42e9847b767c7af86c6c8a05b0ba2b04a4f
   specs:
-    chassis (0.0.1)
+    chassis (0.1.0)
       faraday
       harness
       harness-rack
@@ -11,6 +11,7 @@ GIT
       prox
       rack-contrib
       sinatra
+      sinatra-contrib
       virtus
       virtus-dirty_attribute
 
@@ -119,5 +120,4 @@ DEPENDENCIES
   rack-test
   rake
   sidekiq
-  sinatra-contrib
   webmock
