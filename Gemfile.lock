@@ -1,23 +1,18 @@
 GIT
   remote: git://github.com/ahawkins/chassis.git
-  revision: b2eac85548455f765bf0e4f99b25d5e90692e2c2
+  revision: ef9ad45bcd6bab6f76501da9eec007c94431156f
   specs:
     chassis (0.0.1)
+      faraday
       harness
       harness-rack
+      logger-better
       manifold
       prox
       rack-contrib
       sinatra
-      virtus (= 1.0.0)
-      virtus-dirty
-
-GIT
-  remote: git://github.com/ahawkins/virtus-dirty.git
-  revision: 5a6b4f1a8e0e6634b47534256e093921c795510c
-  specs:
-    virtus-dirty (0.1.0)
-      virtus (>= 1.0.0)
+      virtus
+      virtus-dirty_attribute
 
 GEM
   remote: https://rubygems.org/
@@ -42,28 +37,27 @@ GEM
     builder (3.1.4)
     celluloid (0.15.2)
       timers (~> 1.1.0)
-    coercible (0.2.0)
-      backports (~> 3.0, >= 3.1.0)
+    coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     connection_pool (1.2.0)
     crack (0.4.1)
       safe_yaml (~> 0.9.0)
     descendants_tracker (0.0.3)
     equalizer (0.0.9)
-    fabrication (2.9.4)
-    faraday (0.8.8)
+    fabrication (2.9.6)
+    faraday (0.8.9)
       multipart-post (~> 1.2.0)
-    harness (1.0.2)
-      activesupport (>= 3)
+    harness (2.0.0)
       statsd-ruby
     harness-rack (0.1.0)
       harness
     i18n (0.6.9)
     ice_nine (0.11.0)
     json (1.8.1)
+    logger-better (0.1.0)
     manifold (1.0.2)
     minitest (4.7.5)
-    multi_json (1.8.2)
+    multi_json (1.8.4)
     multipart-post (1.2.0)
     prox (0.0.1)
     puma (2.7.1)
@@ -103,11 +97,13 @@ GEM
     tilt (1.4.1)
     timers (1.1.0)
     tzinfo (0.3.38)
-    virtus (1.0.0)
+    virtus (1.0.1)
       axiom-types (~> 0.0.5)
-      coercible (~> 0.2)
+      coercible (~> 1.0)
       descendants_tracker (~> 0.0.1)
       equalizer (~> 0.0.7)
+    virtus-dirty_attribute (0.1.0)
+      virtus (~> 1.0.0)
     webmock (1.16.1)
       addressable (>= 2.2.7)
       crack (>= 0.3.2)
@@ -119,11 +115,9 @@ DEPENDENCIES
   active_model_serializers
   chassis!
   fabrication
-  faraday
   puma
   rack-test
   rake
   sidekiq
   sinatra-contrib
-  virtus-dirty!
   webmock

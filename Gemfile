@@ -5,13 +5,10 @@ source 'https://rubygems.org'
 gem 'rake'
 
 gem 'chassis', github: 'ahawkins/chassis'
-gem 'virtus-dirty', github: 'ahawkins/virtus-dirty'
 
 gem 'sinatra-contrib'
 gem 'puma'
 gem 'sidekiq'
-
-gem 'faraday'
 
 gem 'active_model_serializers'
 
