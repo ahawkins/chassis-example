@@ -9,7 +9,7 @@
 * 422 for validation failures
 * 500 for server errors
 * 503 maintenance and temporary availability errors
-* host: `http://photo-app-backend.herokuapp.com`
+* host: `http://photo-app-backend-production.herokuapp.com`
 
 ## Authenticate a Device & Signup
 
@@ -88,3 +88,34 @@ Content-Type: application/json
 ```
 
 Response will be a 200 with the same format.
+
+## Create a group
+
+```
+PUT /groups
+X-Token: 089b94ad71734d1f8820e80d39833b42
+Content-Type: application/json
+
+{
+  "group": {
+    "name": "Testing"
+  }
+}
+```
+
+Response should be 201.
+
+## Upload a Picture
+
+```
+POST /groups/:group_id/pictures
+X-Token: 089b94ad71734d1f8820e80d39833b42
+
+{
+  "picture": {
+    "file": "...."
+  }
+}
+```
+
+Response should be 201.
