@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/ahawkins/chassis.git
-  revision: fd2fc42e9847b767c7af86c6c8a05b0ba2b04a4f
+  revision: 38eea743bd3e057d7d3f66e4754225b4766be4aa
   specs:
     chassis (0.1.0)
       faraday

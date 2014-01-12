@@ -17,7 +17,6 @@ class WebService < Chassis::WebService
   use MethodOverrideHack
   use Chassis::Rack::Ping
   use Chassis::Rack::Instrumentation
-  use Rack::PostBodyContentTypeParser
 
   class AuthHeaderMissingError < StandardError
     def to_s
