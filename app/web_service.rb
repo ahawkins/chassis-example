@@ -153,17 +153,6 @@ class WebService < Chassis::WebService
     json serialize(picture)
   end
 
-  post '/backstage/groups/:group_id/pictures' do |group_id|
-    fixture_path = File.expand_path("../../test/fixtures/photo.jpeg", __FILE__)
-    form = PictureForm.new file: File.new(fixture_path)
-    use_case = AddPicture.new group_id, form, current_user
-
-    picture = use_case.run!
-
-    status 201
-    json serialize(picture)
-  end
-
   get '/groups/:group_id/pictures' do |group_id|
     use_case = GetPictures.new group_id, current_user
     json serialize(use_case.pictures, root: :pictures)

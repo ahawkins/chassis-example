@@ -25,17 +25,6 @@ class CreatePictureTest < AcceptanceTestCase
     refute_empty db.pictures
   end
 
-  def test_works_with_fake_pictures
-    post "/backstage/groups/#{group.id}/pictures", { }, { 
-      'HTTP_X_TOKEN' => user.token
-    }
-
-    assert_equal 201, last_response.status
-
-    db = GroupRepo.first
-    refute_empty db.pictures
-  end
-
   def test_returns_the_picture_as_json
     post "/groups/#{group.id}/pictures", { picture: {
       file: photo_file
