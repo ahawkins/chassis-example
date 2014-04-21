@@ -11,9 +11,7 @@ require 'pathname'
 require_relative 'support/sidekiq'
 require_relative 'support/fabrication'
 require_relative 'support/backtrace_silencer'
-
-require 'webmock/minitest'
-WebMock.disable_net_connect! allow: /cloudinary/
+require_relative 'support/webmock'
 
 class MiniTest::Test
   def cloudinary_url
