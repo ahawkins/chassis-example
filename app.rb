@@ -7,7 +7,6 @@ require 'redis-namespace'
 
 require 'sinatra/json'
 
-require 'active_support/core_ext/class'
 require 'active_support/core_ext/string'
 require 'active_support/core_ext/hash'
 
