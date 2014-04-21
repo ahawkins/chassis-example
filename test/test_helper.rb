@@ -9,8 +9,7 @@ require 'rack/test'
 require 'fabrication'
 require 'pathname'
 
-require 'sidekiq/testing'
-Sidekiq::Testing.fake!
+require_relative 'support/sidekiq'
 
 require 'webmock/minitest'
 WebMock.disable_net_connect! allow: /cloudinary/
@@ -102,12 +101,6 @@ class AcceptanceTestCase < MiniTest::Test
 
     Chassis.repo.use repo_implementation
     Chassis.repo.clear
-
-    Sidekiq::Testing.fake!
-  end
-
-  def teardown
-    Sidekiq::Testing.fake!
   end
 
   def assert_iso8601(value)
