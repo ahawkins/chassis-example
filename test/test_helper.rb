@@ -10,25 +10,10 @@ require 'pathname'
 
 require_relative 'support/sidekiq'
 require_relative 'support/fabrication'
+require_relative 'support/backtrace_silencer'
 
 require 'webmock/minitest'
 WebMock.disable_net_connect! allow: /cloudinary/
-
-class BacktraceFilter
-  def filter(bt)
-    return ["No backtrace"] unless bt
-
-    return bt.dup if $DEBUG
-
-    bt.select { |line| line.include? root }
-  end
-
-  def root
-    File.expand_path("../../", __FILE__)
-  end
-end
-
-MiniTest.backtrace_filter = BacktraceFilter.new
 
 class MiniTest::Test
   def cloudinary_url
