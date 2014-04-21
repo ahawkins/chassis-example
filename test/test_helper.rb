@@ -14,10 +14,6 @@ require_relative 'support/backtrace_silencer'
 require_relative 'support/webmock'
 
 class MiniTest::Test
-  def cloudinary_url
-    'cloudinary://152823543227467:8c7WbzmM4Rk7Dl1RZsnR_RIpD3k@haeunwn44'
-  end
-
   def ci?
     ENV.key? 'CI'
   end
