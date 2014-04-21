@@ -1,17 +1,5 @@
 class PushService
-  cattr_accessor :backend
-
-  class NullBackend
-    def push(notification)
-
-    end
-  end
-
-  class << self
-    def push(notification)
-      backend.push notification
-    end
-  end
+  extend Chassis.strategy(:push, :notifications, :clear)
 end
 
-require_relative 'push_service/fake_backend'
+require_relative 'push_service/fake_push_service'

@@ -1,4 +1,5 @@
-class Form < Chassis::Form
+class Form
+  include Chassis.form
   include ActiveModel::Validations
 
   def validate!

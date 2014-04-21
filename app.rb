@@ -48,7 +48,6 @@ end
 
 require_relative 'app/utils'
 
-require_relative 'app/models/concerns/persistance'
 require_relative 'app/models/concerns/serialization'
 require_relative 'app/models/auth_token'
 require_relative 'app/models/device'
@@ -68,8 +67,8 @@ require_relative 'app/repos/auth_token_repo'
 require_relative 'app/repos/user_repo'
 require_relative 'app/repos/group_repo'
 
-require_relative 'app/repos/adapters/in_memory_adapter'
-require_relative 'app/repos/adapters/redis_adapter'
+require_relative 'app/repos/adapters/memory_repo'
+require_relative 'app/repos/adapters/redis_repo'
 
 require_relative 'app/form'
 require_relative 'app/forms/user_token_form'
@@ -108,6 +107,9 @@ root = File.dirname __FILE__
 config_file = "#{root}/config/#{App.env}.rb"
 require config_file
 
-SmsService.backend ||= SmsService::NullBackend.new
-PushService.backend ||= PushService::NullBackend.new
-ImageService.backend ||= ImageService::FakeBackend.new
+Chassis.repo.register :memory, MemoryRepo.new
+Chassis.repo.use :memory
+
+SmsService.use :null
+PushService.use :null
+ImageService.use :fake

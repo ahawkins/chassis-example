@@ -1,6 +1,6 @@
 require_relative '../test_helper'
 
-class SmsServiceTest < MiniTest::Unit::TestCase
+class TwilioSmsServiceTest < MiniTest::Test
   attr_reader :sms
 
   def account_sid
@@ -19,12 +19,9 @@ class SmsServiceTest < MiniTest::Unit::TestCase
     '+23913831'
   end
 
-  def sms
-    SmsService
-  end
 
   def setup
-    SmsService.backend = SmsService::TwilioBackend.new account_sid, auth_token, from_number
+    @sms = TwilioSmsService.new account_sid, auth_token, from_number
     Sidekiq::Testing.inline!
   end
 

@@ -9,7 +9,7 @@ class GroupRepo
 end
 
 class GroupsForUser
-  include Chassis::HashInitializer
+  include Chassis::Initializable
 
   attr_accessor :user, :updated_after
 end

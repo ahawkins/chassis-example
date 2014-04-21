@@ -1,4 +1,8 @@
-class InMemoryAdapter < Chassis::Repo::InMemoryAdapter
+class MemoryRepo < Chassis::MemoryRepo
+  def next_id
+    super.to_i
+  end
+
   def find(klass, id)
     super klass, id.to_i
   end

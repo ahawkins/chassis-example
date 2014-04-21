@@ -1,6 +1,9 @@
 class AuthToken
-  include Persistance
-  include Chassis::HashInitializer
+  include Chassis::Persistence
 
   attr_accessor :phone_number, :code
+
+  def destroy
+    repo.delete self
+  end
 end

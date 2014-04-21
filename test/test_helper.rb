@@ -15,6 +15,16 @@ Sidekiq::Testing.fake!
 require 'webmock/minitest'
 WebMock.disable_net_connect! allow: /cloudinary/
 
+# Mimic ActiveRecord interface so Fabrication works
+# as intended
+module Chassis
+  module Persistence
+    def save!
+      save
+    end
+  end
+end
+
 class BacktraceFilter
   def filter(bt)
     return ["No backtrace"] unless bt
@@ -31,7 +41,7 @@ end
 
 MiniTest.backtrace_filter = BacktraceFilter.new
 
-class MiniTest::Unit::TestCase
+class MiniTest::Test
   def cloudinary_url
     'cloudinary://152823543227467:8c7WbzmM4Rk7Dl1RZsnR_RIpD3k@haeunwn44'
   end
@@ -41,19 +51,19 @@ class MiniTest::Unit::TestCase
   end
 
   def image_service
-    ImageService.backend
+    ImageService
   end
 
   def sms
-    SmsService.backend
+    SmsService
   end
 
   def push
-    PushService.backend
+    PushService
   end
 end
 
-class AcceptanceTestCase < MiniTest::Unit::TestCase
+class AcceptanceTestCase < MiniTest::Test
   include Rack::Test::Methods
 
   def app
@@ -64,30 +74,34 @@ class AcceptanceTestCase < MiniTest::Unit::TestCase
     Fabricate(*args)
   end
 
-  def repo_adapter
+  def repo_implementation
     if ci?
-      RedisAdapter.new
+      :redis
     else
-      InMemoryAdapter.new
+      :memory
     end
   end
 
-  def image_service_adapter
+  def image_service_implementation
     if ci?
-      ImageService::CloudinaryBackend.new cloudinary_url
+      :cloudinary
     else
-      ImageService::FakeBackend.new
+      :fake
     end
   end
 
   def setup
-    SmsService.backend = SmsService::FakeBackend.new
-    PushService.backend = PushService::FakeBackend.new
-    ImageService.backend = image_service_adapter
+    SmsService.use :fake
+    SmsService.clear
 
-    Chassis::Repo.backend = repo_adapter
-    Chassis::Repo.instance.initialize_storage!
-    Chassis::Repo.instance.clear
+    PushService.use :fake
+    PushService.clear
+
+    ImageService.use image_service_implementation
+    ImageService.clear
+
+    Chassis.repo.use repo_implementation
+    Chassis.repo.clear
 
     Sidekiq::Testing.fake!
   end

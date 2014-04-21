@@ -1,7 +1,6 @@
 class Group
-  include Persistance
+  include Chassis::Persistence
   include Serialization
-  include Chassis::HashInitializer
 
   attr_accessor :name, :admin, :users, :pictures
   attr_accessor :cover
@@ -24,5 +23,9 @@ class Group
 
   def member?(user)
     users.include? user
+  end
+
+  def destroy
+    repo.delete self
   end
 end

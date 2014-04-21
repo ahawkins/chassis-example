@@ -1,6 +1,6 @@
 require_relative '../test_helper'
 
-class ImageServiceTest < MiniTest::Unit::TestCase
+class ImageServiceTest < MiniTest::Test
   attr_reader :image_service
 
   def photo_path
@@ -8,11 +8,11 @@ class ImageServiceTest < MiniTest::Unit::TestCase
   end
 
   def setup
-    ImageService.backend = ImageService::CloudinaryBackend.new cloudinary_url
+    @image_service = CloudinaryImageService.new cloudinary_url
   end
 
   def test_round_trips_images
     photo = ImageFile.new photo_path, 'image/jpeg'
-    ImageService.upload photo
+    image_service.upload photo
   end
 end

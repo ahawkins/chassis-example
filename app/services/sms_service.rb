@@ -1,20 +1,8 @@
 class SmsService
-  cattr_accessor :backend
-
   DeliveryError = Class.new StandardError
 
-  class NullBackend
-    def deliver(number, message)
-
-    end
-  end
-
-  class << self
-    def deliver(number, message)
-      backend.deliver number, message
-    end
-  end
+  extend Chassis.strategy(:deliver, :messages, :clear)
 end
 
-require_relative 'sms_service/twilio_backend'
-require_relative 'sms_service/fake_backend'
+require_relative 'sms_service/twilio_sms_service'
+require_relative 'sms_service/fake_sms_service'

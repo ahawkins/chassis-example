@@ -1,6 +1,6 @@
 class Picture
   include Serialization
-  include Chassis::HashInitializer
+  include Chassis::Initializable
 
   attr_accessor :group, :user
   attr_accessor :id

@@ -1,4 +1,4 @@
-class RedisAdapter < InMemoryAdapter
+class RedisRepo < MemoryRepo
   class RedisMapper
     attr_reader :klass, :redis
 
