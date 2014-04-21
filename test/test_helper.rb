@@ -6,23 +6,13 @@ require "#{root}/app"
 require 'minitest/autorun'
 require 'minitest/mock'
 require 'rack/test'
-require 'fabrication'
 require 'pathname'
 
 require_relative 'support/sidekiq'
+require_relative 'support/fabrication'
 
 require 'webmock/minitest'
 WebMock.disable_net_connect! allow: /cloudinary/
-
-# Mimic ActiveRecord interface so Fabrication works
-# as intended
-module Chassis
-  module Persistence
-    def save!
-      save
-    end
-  end
-end
 
 class BacktraceFilter
   def filter(bt)
