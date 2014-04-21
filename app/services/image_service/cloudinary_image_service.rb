@@ -106,6 +106,10 @@ class CloudinaryImageService
     deleted[id] = true
   end
 
+  def clear
+    # nothing to do here, added to satisfy public interface
+  end
+
   private
   # http://cloudinary.com/documentation/upload_images#request_authentication
   def sign(params)
