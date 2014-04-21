@@ -1,4 +1,22 @@
-# Photo App Backend
+# Photo App Backend - A Chassis Example
+
+This project was supposed to be the backend API for an iOS photo
+sharing app. That app never happend, so I've repurposed the code as an
+example on using Chassis!
+
+Run tests with `bundle exec rake`. You can run tests against real
+services using `bundle exec rake test:ci`.
+
+I won't give away too much about the structure, because you should
+explore it your self. Here's some quick info:
+
+* Two repositories: memory and redis
+* `Chassis.form` used for form objects
+* `Chassis.stratey` used to create facades to external services
+* see `config/test.rb` for info on setting up services & repos
+* see `test/test_helper.rb` on how to switch between them
+
+More questions? Just ask me!
 
 ## General Principles
 
