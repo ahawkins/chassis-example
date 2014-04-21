@@ -7,9 +7,6 @@ require 'redis-namespace'
 
 require 'sinatra/json'
 
-require 'active_support/core_ext/string'
-require 'active_support/core_ext/hash'
-
 require 'active_model_serializers'
 
 I18n.enforce_available_locales = false
