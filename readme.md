@@ -12,7 +12,7 @@ explore it your self. Here's some quick info:
 
 * Two repositories: memory and redis
 * `Chassis.form` used for form objects
-* `Chassis.stratey` used to create facades to external services
+* `Chassis.strategy` used to create facades to external services
 * see `config/test.rb` for info on setting up services & repos
 * see `test/test_helper.rb` on how to switch between them
 
